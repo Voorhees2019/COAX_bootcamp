@@ -1,0 +1,5 @@
+[tool.black]
+line-length = 100
+exclude = '(\.git|venv|\.mypy_cache)'
+target-version = ['py310']
+preview = true
