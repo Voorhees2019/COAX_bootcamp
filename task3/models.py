@@ -13,32 +13,14 @@ class Note:
         note's title
     note: str
         some entry of a note
-    rating: float
-        note's rating (from 1 to 5)
-
-    Methods
-    -------
-    get_field_values()
-        Returns the list of attribute values of the note instance
     """
 
-    def __init__(self, name: str, note: str, rating: float):
+    def __init__(self, name: str, note: str):
         self.name = name
         self.note = note
-        self.rating = float(rating)
 
     def __str__(self):
-        return f"{self.name} | {self.note} | {self.rating}"
-
-    @property
-    def rating(self):
-        return self._rating
-
-    @rating.setter
-    def rating(self, value: float):
-        if value < 1 or value > 5:
-            raise ValueError("`rating` cannot be lower than 1 or greater than 5")
-        self._rating = value
+        return f"{self.name} | {self.note}"
 
     def get_field_values(self):
         return [v for v in self.__dict__.values()]
@@ -59,7 +41,21 @@ class Movie(Note):
     """
 
     def __init__(self, name: str, note: str, rating: float):
-        super().__init__(name, note, rating)
+        super().__init__(name, note)
+        self.rating = float(rating)
+
+    @property
+    def rating(self):
+        return self._rating
+
+    @rating.setter
+    def rating(self, value: float):
+        if value < 1 or value > 5:
+            raise ValueError("`rating` cannot be lower than 1 or greater than 5")
+        self._rating = value
+
+    def __str__(self):
+        return f"{self.name} | {self.note} | {self.rating}"
 
 
 class NotesManager:
@@ -87,7 +83,7 @@ class NotesManager:
         Prints to console all notes from file
     """
 
-    def __init__(self, note, filename: str = "movieNotes.csv"):
+    def __init__(self, note, filename: str = "Notes.csv"):
         self.note = note
         self.filename = filename
         self.notes_list: list[Note] = []
@@ -104,6 +100,7 @@ class NotesManager:
         self.notes_list.append(note)
 
     def remove_note(self, note_index: int):
+        self.read_notes()
         try:
             del self.notes_list[note_index]
         except IndexError:
