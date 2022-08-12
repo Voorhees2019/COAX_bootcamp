@@ -1,1 +1,1 @@
-# COAX Python Bootcamp Test Tasks
+# COAX Python Bootcamp
