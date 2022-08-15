@@ -16,5 +16,34 @@ def prime_generator(limit: int) -> Generator[int, None, None]:
             yield num
 
 
+# ----------------------------------- Sieve of Eratosthenes ----------------------------------------
+
+
+def prime_generator2(limit: int) -> Generator[int, None, None]:
+    """Generator to return prime numbers. Implementation of Sieve of Eratosthenes."""
+    arr = [0 if i == 1 else i for i in range(limit)]  # 1 is not prime number
+    i = 2
+    while i < limit:
+        if arr[i] != 0:
+            yield arr[i]
+            j = 2 * i
+            while j < limit:
+                arr[j] = 0
+                j += i
+        i += 1
+
+
+def prime_generator3(limit: int) -> Generator[int, None, None]:
+    """Generator to return prime numbers. Implemented using set difference."""
+    sieve = set(range(2, limit))
+    while sieve:
+        prime = min(sieve)
+        yield prime
+        sieve -= set(range(prime, limit, prime))
+
+
 if __name__ == "__main__":
-    print([num for num in prime_generator(100)])
+    n = 100
+    print([num for num in prime_generator(n)])
+    print([num for num in prime_generator2(n)])
+    print([num for num in prime_generator3(n)])
